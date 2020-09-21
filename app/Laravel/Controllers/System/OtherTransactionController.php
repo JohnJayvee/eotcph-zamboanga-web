@@ -91,6 +91,12 @@ class OtherTransactionController extends Controller
 					$new_violators->date_time = $request->get('date_time');
 					$new_violators->violation = $request->get('violation');
 					$new_violators->save();
+					$insert[] = [
+		                'contact_number' => $new_other_transaction->contact_number,
+		                'ref_num' => $new_transaction->processing_fee_code
+		            ];	
+					$notification_data = new SendReference($insert);
+				    Event::dispatch('send-sms', $notification_data);
 					DB::commit();
 					session()->flash('notification-status', "success");
 					session()->flash('notification-msg', "Transaction has been added.");
@@ -134,6 +140,12 @@ class OtherTransactionController extends Controller
 					$new_violators->date_time = $request->get('date_time');
 					$new_violators->violation = $request->get('violation');
 					$new_violators->save();
+					$insert[] = [
+		                'contact_number' => $new_other_transaction->contact_number,
+		                'ref_num' => $new_transaction->processing_fee_code
+		            ];	
+					$notification_data = new SendReference($insert);
+				    Event::dispatch('send-sms', $notification_data);
 					DB::commit();
 					session()->flash('notification-status', "success");
 					session()->flash('notification-msg', "Transaction has been added.");
