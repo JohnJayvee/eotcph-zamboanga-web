@@ -32,7 +32,6 @@ class OtherCustomerController extends Controller
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 	public function  index(PageRequest $request){
-		
 		$this->data['page_title'] = "Local Customer";
 		$this->data['other_customers'] = OtherCustomer::orderBy('created_at',"DESC")->get(); 
 		return view('system.other-customer.index',$this->data);
@@ -80,6 +79,7 @@ class OtherCustomerController extends Controller
 		$this->data['page_title'] .= " - Show record";
 		$this->data['other_customer'] = $request->get('other_customer_data');
 		$this->data['transactions'] = OtherTransaction::where('customer_id',$this->data['other_customer']->id)->get();
+		
 		return view('system.other-customer.show',$this->data);
 	}
 

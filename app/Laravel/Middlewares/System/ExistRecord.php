@@ -160,7 +160,7 @@ class ExistRecord
     }
 
     private function __exist_other_customer($request){
-        $other_customer= OtherTransaction::find($this->reference_id);
+        $other_customer= OtherCustomer::find($this->reference_id);
 
         if($other_customer){
             $request->merge(['other_customer_data' => $other_customer]);

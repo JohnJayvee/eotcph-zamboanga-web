@@ -48,11 +48,13 @@
         </thead>
         <tbody>
           @forelse($other_customers as $other_customer)
-            <th><a href="{{route('system.other_customer.show',[$other_customer->id])}}">{{$other_customer->full_name}}</a></th>
-            <th>{{$other_customer->address}}</th>
-            <th>{{$other_customer->contact_number}}</th>
-            <th>{{$other_customer->email}}</th>
-            <th>{{Helper::date_format($other_customer->created_at)}}</th>
+            <tr>
+              <th><a href="{{route('system.other_customer.show',[$other_customer->id])}}">{{$other_customer->full_name}}</a></th>
+              <th>{{$other_customer->address}}</th>
+              <th>{{$other_customer->contact_number}}</th>
+              <th>{{$other_customer->email}}</th>
+              <th>{{Helper::date_format($other_customer->created_at)}}</th>
+            </tr>
           @empty
 
           @endforelse
