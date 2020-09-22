@@ -21,7 +21,7 @@ use App\Laravel\Events\SendApplication;
 
 /* App Classes
  */
-use Carbon,Auth,DB,Str,Helper;
+use Carbon,Auth,DB,Str,Helper,Event;
 
 class OtherTransactionController extends Controller
 {
