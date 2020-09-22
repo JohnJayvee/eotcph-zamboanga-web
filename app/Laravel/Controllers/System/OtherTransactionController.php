@@ -93,7 +93,7 @@ class OtherTransactionController extends Controller
 					$new_violators->save();
 					$insert[] = [
 		                'contact_number' => $new_other_transaction->contact_number,
-		                'ref_num' => $new_transaction->processing_fee_code
+		                'ref_num' => $new_other_transaction->processing_fee_code
 		            ];	
 					$notification_data = new SendReference($insert);
 				    Event::dispatch('send-sms', $notification_data);
@@ -142,7 +142,7 @@ class OtherTransactionController extends Controller
 					$new_violators->save();
 					$insert[] = [
 		                'contact_number' => $new_other_transaction->contact_number,
-		                'ref_num' => $new_transaction->processing_fee_code
+		                'ref_num' => $new_other_transaction->processing_fee_code
 		            ];	
 					$notification_data = new SendReference($insert);
 				    Event::dispatch('send-sms', $notification_data);
