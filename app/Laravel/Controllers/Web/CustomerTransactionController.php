@@ -34,7 +34,7 @@ class CustomerTransactionController extends Controller
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
 
-		$this->data['department'] = ['' => "Choose Peza Unit"] + Department::pluck('name', 'id')->toArray();
+		$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 

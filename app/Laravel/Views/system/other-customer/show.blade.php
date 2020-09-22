@@ -4,7 +4,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{route('system.dashboard')}}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{route('system.other_customer.index')}}">Customer Management</a></li>
+    <li class="breadcrumb-item"><a href="#">Customer Management</a></li>
     <li class="breadcrumb-item active" aria-current="page">Customer Details</li>
   </ol>
 </nav>
