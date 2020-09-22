@@ -12,8 +12,8 @@
             <a href="{{route('web.transaction.create')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
          </div>
           
-        <div class="card">
-        <table class="table table-striped table-font">
+        <div class="card table-responsive">
+        <table class="table table-striped table-font ">
             <thead>
               <tr>
                 <th class="text-title fs-15 fs-500 p-3">Company Name</th>

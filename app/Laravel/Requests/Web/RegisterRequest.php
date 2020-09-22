@@ -17,7 +17,7 @@ class RegisterRequest extends RequestManager{
 			'street_name' => "required",
 			'unit_number' => "required",
 			'zipcode' => "required",
-			'birthdate' => "required",
+			'birthdate' => "required|date_format:Y-m-d",
 			'tin_no' => "required",
 			'sss_no' => "required",
 			'phic_no' => "required",
@@ -33,6 +33,7 @@ class RegisterRequest extends RequestManager{
 		return [
 			'required'	=> "Field is required.",
 			'contact_number.phone' => "Please provide a valid PH mobile number.",
+			'birthdate.date_format' => "Invalid Date Format."
 		];
 	}
 }

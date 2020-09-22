@@ -51,17 +51,6 @@ class CustomerTransactionController extends Controller
 		$temp_id = time();
 		$auth_id = Auth::guard('customer')->user()->id;
 		
-		$requirements = Application::where('id',$request->get('application_id'))->first();
-		$count = ApplicationRequirements::whereIn('id',explode(",", $requirements->requirements_id))->count();
-		if ($request->hasFile('file')) {
-			if (count($request->file) < $count) {
-				session()->flash('notification-status', "failed");
-				session()->flash('notification-msg', "You must at least submit the minimum requirements needed.");
-				return redirect()->back();
-			}
-
-		}
-		
 		DB::beginTransaction();
 		try{
 			$new_transaction = new Transaction;

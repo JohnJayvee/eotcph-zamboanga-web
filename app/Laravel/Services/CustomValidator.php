@@ -8,10 +8,25 @@ use App\Laravel\Models\{User,Citizen,Barangay};
 use App\Laravel\Models\{AccountCode};
 use App\Laravel\Models\{Application,ApplicationRequirements};
 
-use Auth, Hash,Str,Carbon,Helper,Request;
+use Auth, Hash,Str,Carbon,Helper,Request,Input;
 
 class CustomValidator extends Validator {
 
+
+     public function validateWithCount($attribute,$value,$parameters){
+
+        if(is_array($parameters) AND isset($parameters[0])){ $file = Request::get($parameters[0]); }
+        if(is_array($parameters) AND isset($parameters[0])){ $application_id = Request::get($parameters[1]); }
+
+        $application = Application::find($application_id);
+        $requirements_count = ApplicationRequirements::whereIn('id', explode(",",$application->requirements_id))->count();
+        
+        if ($file < $requirements_count) {
+            return FALSE;
+        }
+        return TRUE;
+            
+    }
     protected function replaceWithLeave($message, $attribute, $rule, $parameters)
     {
         $value = $this->getValue($attribute);

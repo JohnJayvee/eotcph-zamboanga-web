@@ -114,6 +114,7 @@
                            </tbody>
                         </table>
                     </div>
+                    <input type="hidden" name="file_count" id="file_count">
                     <h5 class="text-title text-uppercase pt-3">Upload Requirements</h5>
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
@@ -126,16 +127,18 @@
                                     </button>
                                     <input type="file" name="file[]" class="form-control" id="file" accept="application/pdf" multiple>
                                 </div>
-                                @foreach($errors->all() as $error)
+                                @forelse($errors->all() as $error)
                                     @if($error == "Only PDF File are allowed.")
                                         <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$error}}</label>
+                                    @elseif($error == "No File Uploaded.")
+                                        <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$error}}</label>
+                                    @elseif($error == "Please Submit minimum requirements.")
+                                        <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$error}}</label>
                                     @endif
-                                @endforeach
-                                @if($errors->first('file'))
-                                    <label id="lblName" style="vertical-align: top;padding-top: 40px;color: red;" class="fw-500 pl-3">{{$errors->first('file')}}</label>
-                                @else
+                                @empty
                                     <label id="lblName" style="vertical-align: top;padding-top: 40px;" class="fw-500 pl-3"></label>
-                                @endif
+                                @endforelse
+                                
                             </div>
                         </div>
                     </div>
@@ -145,7 +148,7 @@
                     <h5 class="text-title text-uppercase ">Print Requirements</h5>
                     <div class="custom-control custom-checkbox mb-3">
                         <input type="checkbox" class="custom-control-input" id="customControlValidation1" name="is_check" value="1">
-                        <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this option if you're going to submit physical copies of your documents. The system will generate a QR Code that you'll have to attach to the envelope of your physical copies.</label>
+                        <label class="custom-control-label fs-14 fw-600 text-black" for="customControlValidation1">&nbsp;&nbsp; Check this checkbox to receive a QR code for the submission of your physical copy of your requirements.</label>
                         
                     </div>
                     <button class="btn badge badge-primary-2 text-white px-4 py-2 fs-14" type="submit"><i class="fa fa-paper-plane pr-2"></i>  Send Application</button>
@@ -184,6 +187,7 @@
             files.push($(this)[0].files[i].name);
         }
         $('#lblName').text(files.join(', '));
+        $('#file_count').val(files.length);
     });
 
 

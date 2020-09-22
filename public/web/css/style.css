@@ -1584,6 +1584,10 @@ select.form-control.has-value{
     .switchable .imageblock-section-img[class*='col-'] {
         float: none !important;
     }
+    .home-bg:before{
+      
+        background: url("../img/homebg.jpg")no-repeat !important;
+    }
 }
 
 .switchable > div[class*='col-'] {
