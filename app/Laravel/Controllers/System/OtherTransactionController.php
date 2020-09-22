@@ -16,7 +16,8 @@ use App\Laravel\Models\Violations;
 use App\Laravel\Models\Violators;
 use App\Laravel\Models\OtherCustomer;
 
-
+use App\Laravel\Events\SendReference;
+use App\Laravel\Events\SendApplication;
 
 /* App Classes
  */
