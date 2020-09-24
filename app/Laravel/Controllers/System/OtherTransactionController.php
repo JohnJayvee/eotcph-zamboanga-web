@@ -64,11 +64,11 @@ class OtherTransactionController extends Controller
 					$new_other_transaction->contact_number = $request->get('contact_number');
 					$new_other_transaction->application_name = "Ticket Violation";
 					if ($request->get('violation_count') == 0) {
-						$new_other_transaction->processing_fee = 200;
+						$new_other_transaction->amount = 200;
 					}elseif ($request->get('violation_count') == 1) {
-						$new_other_transaction->processing_fee = 300;
+						$new_other_transaction->amount = 300;
 					}else{
-						$new_other_transaction->processing_fee = 600;
+						$new_other_transaction->amount = 600;
 					}
 					
 					$new_other_transaction->processor_user_id = Auth::user()->id;
@@ -78,7 +78,6 @@ class OtherTransactionController extends Controller
 
 					$new_other_transaction->processing_fee_code = 'OT-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
 
-					$new_other_transaction->transaction_code = 'APP-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
 					$new_other_transaction->save();
 
 					$new_violators = new Violators;
