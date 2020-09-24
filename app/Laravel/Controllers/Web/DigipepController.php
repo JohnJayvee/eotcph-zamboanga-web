@@ -75,8 +75,7 @@ class DigipepController extends Controller
 
 			if(isset($response->payment) AND Str::upper($response->payment->status) == "PAID" AND $transaction->transaction_status != "COMPLETED" AND $prefix == "PF"){
 
-				DB::beginTransaction();
-				try{
+				
 					$transaction->payment_reference = $response->transactionCode;
 					$transaction->payment_method  = $response->payment->paymentMethod;
 					$transaction->payment_type  = $response->payment->paymentType;
@@ -93,10 +92,7 @@ class DigipepController extends Controller
 					$transaction->save();
 					DB::commit();
 
-				}catch(\Exception $e){
-					DB::rollBack();
-					Log::alert("Digipep Error : "."Server Error. Please try again.".$e->getLine());
-				}
+				
 			}
 			if(isset($response->payment) AND Str::upper($response->payment->status) == "PAID" AND $transaction->transaction_status != "COMPLETED" AND $prefix == "OT"){
 
