@@ -43,7 +43,7 @@ Route::group(['as' => "web.",
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
 			Route::post('other-store',['as' => "other_store", 'uses' => "CustomerTransactionController@other_store"]);
 		});
-
+		
 	});
 
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
@@ -57,8 +57,8 @@ Route::group(['as' => "web.",
 		],function() {
 	
 	Route::group(['prefix' => "digipep",'as' => "digipep."],function(){
-		Route::any('success/{code?}',['as' => "success",'uses' => "DigipepController@success"]);
-		Route::any('cancel/{code?}',['as' => "cancel",'uses' => "DigipepController@cancel"]);
-		Route::any('failed/{code?}',['as' => "failed",'uses' => "DigipepController@failed"]);
+		Route::any('success/{code}',['as' => "success",'uses' => "DigipepController@success"]);
+		Route::any('cancel/{code}',['as' => "cancel",'uses' => "DigipepController@cancel"]);
+		Route::any('failed/{code}',['as' => "failed",'uses' => "DigipepController@failed"]);
 	});
 });
