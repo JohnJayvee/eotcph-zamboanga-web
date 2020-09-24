@@ -192,7 +192,7 @@
             $('#salary').hide();
             $('#business').hide();
             $('#property').hide();
-            $("#input_additional_tax").val(45);
+            $("#input_additional_tax").val(0);
             tax = parseInt($('#input_additional_tax').val()) + 5;
             $('#input_subtotal').val(parseInt(tax));
             $('#input_total_amount').val(parseInt(tax));

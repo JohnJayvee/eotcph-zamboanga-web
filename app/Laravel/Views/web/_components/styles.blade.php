@@ -257,7 +257,8 @@
         }
     }
     .brand-logo img{
-        width: 150px;
+        width: 5em;
+        height: 3em;
     }
     .brand-logo{
         margin-bottom: 1em;

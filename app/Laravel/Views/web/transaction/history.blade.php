@@ -9,7 +9,7 @@
          
          <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> APPLICATION HISTORY</span></h5>
-            <a href="{{route('web.transaction.create')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
+            <a href="{{route('web.transaction.create')}}?type=e_submission" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">E-Submission</a>
          </div>
           
         <div class="card table-responsive">
@@ -56,7 +56,7 @@
               </tr>
               @empty
               <tr>
-               <td colspan="5" class="text-center"><i>No transaction Records Available.</i></td>
+               <td colspan="6" class="text-center"><i>No transaction Records Available.</i></td>
               </tr>
               @endforelse
               

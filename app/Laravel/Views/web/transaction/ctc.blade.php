@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i><span class="text-title-two"> Community Tax Certifcate</span></h5>
-            <a href="{{route('web.transaction.history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
+            <a href="{{route('web.transaction.ctc_history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">CTC Application History</a>
         </div>
         @include('web._components.notifications')
         <div class="card">
@@ -39,6 +39,26 @@
                             </div>
                         </div>
                         
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Emal</label>
+                                <input type="text" class="form-control form-control-sm {{ $errors->first('email') ? 'is-invalid': NULL  }}"  placeholder="Tin Number" name="email" value="{{$other_customer ? $other_customer->email : Auth::guard('customer')->user()->email }}">
+                                @if($errors->first('email'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('email')}}</small>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="text-form pb-2">Contact Number</label>
+                                <input type="text" class="form-control form-control-sm {{ $errors->first('contact_number') ? 'is-invalid': NULL }}"  placeholder="contact_number" name="contact_number" value="{{$other_customer ? $other_customer->contact_number : Auth::guard('customer')->user()->contact_number }}">
+                                @if($errors->first('contact_number'))
+                                    <small class="form-text pl-1" style="color:red;">{{$errors->first('contact_number')}}</small>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                   	<div class="row">
                   		<div class="col-sm-12 col-md-6 col-lg-6">
@@ -303,7 +323,7 @@
                 $('#salary').hide();
                 $('#business').hide();
                 $('#property').hide();
-                $("#input_additional_tax").val(45);
+                $("#input_additional_tax").val(0);
                 tax = parseInt($('#input_additional_tax').val()) + 5;
                 $('#input_subtotal').val(parseInt(tax));
                 $('#input_total_amount').val(parseInt(tax));

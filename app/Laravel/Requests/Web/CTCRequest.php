@@ -9,6 +9,8 @@ class CTCRequest extends RequestManager{
 
 		$id = $this->route('id')?:0;
 		$rules = [
+			'email' => "required",
+			'contact_number' => "required",
 			'tin_no' => "required|numeric",
 			'citizenship' => "required",
 			'gender' => "required",

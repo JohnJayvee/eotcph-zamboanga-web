@@ -158,6 +158,8 @@ class CustomerTransactionController extends Controller
 		DB::beginTransaction();
 		try{
 			if ($other_customer) {
+				$other_customer->contact_number = $request->get('contact_number');
+				$other_customer->email = $request->get('email');
 				$other_customer->tin_no = $request->get('tin_no');
 				$other_customer->citizenship = $request->get('citizenship');
 				$other_customer->gender = $request->get('gender');
@@ -185,15 +187,15 @@ class CustomerTransactionController extends Controller
 				$new_other_customer->height = $request->get('height');
 				$new_other_customer->weight = $request->get('weight');
 				$new_other_customer->occupation = $request->get('occupation');
-				$new_other_customer->email = $auth->email;
-				$new_other_customer->contact_number = $auth->contact_number;
+				$new_other_customer->email = $request->get('email');
+				$new_other_customer->contact_number = $request->get('contact_number');
 				$new_other_customer->save();
 			}
 			$new_other_transaction = new OtherTransaction;
 			$new_other_transaction->customer_id = $other_customer ? $other_customer->id : $new_other_customer->id;
 			$new_other_transaction->type = 2;
-			$new_other_transaction->email = $auth->email;
-			$new_other_transaction->contact_number = $auth->contact_number;
+			$new_other_transaction->email = $request->get('email');
+			$new_other_transaction->contact_number = $request->get('contact_number');
 			$new_other_transaction->amount = $request->get('total_amount');
 			$new_other_transaction->application_name = "Community Tax Certificate";
 			$new_other_transaction->application_date = Carbon::now();
@@ -228,7 +230,7 @@ class CustomerTransactionController extends Controller
 			DB::commit();
 			session()->flash('notification-status', "success");
 			session()->flash('notification-msg','Community Tax Certificate application was successfully submitted. Please wait for the processor validate your application. You will received an email once its approved containing your reference code for payment.');
-			return redirect()->route('web.transaction.history');
+			return redirect()->route('web.transaction.ctc_history');
 		}catch(\Exception $e){
 			DB::rollback();
 			session()->flash('notification-status', "failed");
@@ -248,9 +250,9 @@ class CustomerTransactionController extends Controller
 	public function ctc_history(){
 		$auth_id = Auth::guard('customer')->user()->id;
 
-		$this->data['transactions'] = Transaction::where('customer_id', $auth_id)->orderBy('created_at',"DESC")->get();
+		$this->data['tax_transactions'] = OtherTransaction::where('customer_id', $auth_id)->where('type',2)->orderBy('created_at',"DESC")->get();
 		$this->data['page_title'] = "Application history";
-		return view('web.transaction.history',$this->data);
+		return view('web.transaction.taxhistory',$this->data);
 
 	}
 
