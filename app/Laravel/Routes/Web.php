@@ -1,15 +1,15 @@
 <?php
 
-/*,'domain' => env("FRONTEND_URL", "wineapp.localhost.com")*/
 Route::group(['as' => "web.",
 		 'namespace' => "Web",
-		 // 'domain' => env('SYSTEM_URL',''),
+		 'middleware' => ["web"]
 		],function() {
 
 	
 	Route::group(['prefix'=> "/",'as' => 'main.' ],function(){
 		Route::get('/', [ 'as' => "index",'uses' => "MainController@index"]);
 	});
+
 	Route::get('type',['as' => "get_application_type",'uses' => "MainController@get_application_type"]);
 	Route::get('amount',['as' => "get_payment_fee",'uses' => "MainController@get_payment_fee"]);
 	Route::get('requirements',['as' => "get_requirements",'uses' => "MainController@get_requirements"]);
@@ -43,13 +43,20 @@ Route::group(['as' => "web.",
 			Route::post('other-store',['as' => "other_store", 'uses' => "CustomerTransactionController@other_store"]);
 		});
 	});
+
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
+	
+
+});
+
+
+Route::group(['as' => "web.",
+		 'namespace' => "Web",
+		],function() {
 	
 	Route::group(['prefix' => "digipep",'as' => "digipep."],function(){
 		Route::any('success/{code}',['as' => "success",'uses' => "DigipepController@success"]);
 		Route::any('cancel/{code}',['as' => "cancel",'uses' => "DigipepController@cancel"]);
 		Route::any('failed/{code}',['as' => "failed",'uses' => "DigipepController@failed"]);
 	});
-	
-
 });
