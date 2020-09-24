@@ -57,6 +57,7 @@ class Helper{
 			'middlename' => $param['middle_name'],
 			'lastname' => $param['last_name'],
 			'emailAddress' => $param['email'],
+			'contactNumber' => $param['contact_number'],
 			'subMerchantCode' => "EOTCPHP",
 			'subMerchantName' => "EOTCPHP",
 			'title' => $param['title'],
