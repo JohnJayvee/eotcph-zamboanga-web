@@ -229,7 +229,7 @@ class CustomerTransactionController extends Controller
 			$new_tax_certificate->save();
 			DB::commit();
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','Community Tax Certificate application was successfully submitted. Please wait for the processor validate your application. You will received an email once its approved containing your reference code for payment.');
+			session()->flash('notification-msg','Thank you for applying for the Community Tax Certificate. We will process your application, please wait for the payment reference number to be sent.');
 			return redirect()->route('web.transaction.ctc_history');
 		}catch(\Exception $e){
 			DB::rollback();
