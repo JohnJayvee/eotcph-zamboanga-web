@@ -25,7 +25,6 @@ class DigipepController extends Controller
 		Log::info("Digipep Success",array($request->all()));
 		
 		$response = json_decode(json_encode($request->all()));
-		dd($response);
 		if(isset($response->referenceCode)){
 			$code = strtolower($response->referenceCode);
 			$prefix = explode('-', $code)[0];
@@ -101,7 +100,7 @@ class DigipepController extends Controller
 				}
 			}
 			if(isset($response->payment) AND Str::upper($response->payment->status) == "PAID" AND $transaction->transaction_status != "COMPLETED" AND $prefix == "OT"){
-				dd("Das");
+
 				DB::beginTransaction();
 				try{
 					$transaction->payment_reference = $response->transactionCode;
