@@ -59,11 +59,11 @@
         </thead>
         <tbody>
         @forelse($other_transactions as $other_transaction)
-          <tr>
+          <tr class="text-center">
             <th>{{$other_transaction->created_at}}</th>
             <th>{{Str::title($other_transaction->customer->full_name)}}</th>
             <th>{{$other_transaction->transac_type->name}}</th>
-            <th>{{$other_transaction->admin->full_name}}</th>
+            <th>{{$other_transaction->admin ? $other_transaction->admin->full_name : "--"}}</th>
             <th class="text-center">
               <div>{{$other_transaction->processing_fee ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->payment_status)}} p-2">{{Str::upper($other_transaction->payment_status)}}</span></small></div>
@@ -73,6 +73,7 @@
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
                 <a class="dropdown-item" href="{{route('system.other_transaction.show',[$other_transaction->id])}}">View transaction</a>
+                <a class="dropdown-item" href="{{route('system.other_transaction.edit',[$other_transaction->id])}}?type={{$other_transaction->type}}">Edit transaction</a>
                <!--  <a class="dropdown-item action-delete"  data-url="#" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
               </div>
             </td>

@@ -40,6 +40,7 @@ Route::group(['as' => "web.",
 			Route::get('show/{id?}',['as' => "show", 'uses' => "CustomerTransactionController@show"]);
 			Route::get('create',['as' => "create", 'uses' => "CustomerTransactionController@create"]);
 			Route::post('create',['uses' => "CustomerTransactionController@store"]);
+			Route::post('other-store',['as' => "other_store", 'uses' => "CustomerTransactionController@other_store"]);
 		});
 	});
 	Route::get('confirmation/{code?}',['as' => "confirmation",'uses' => "MainController@confirmation"]);

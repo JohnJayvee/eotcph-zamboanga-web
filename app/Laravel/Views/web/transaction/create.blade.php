@@ -8,11 +8,10 @@
 <!--team section start-->
 <section class="px-120 pt-110 pb-80 gray-light-bg">
     <div class="container">
-         
-         <div class="row flex-row items-center px-4">
+        <div class="row flex-row items-center px-4">
             <h5 class="text-title pb-3"><i class="fa fa-file"></i> E<span class="text-title-two"> SUBMISSION</span></h5>
             <a href="{{route('web.transaction.history')}}" class="custom-btn badge-primary-2 text-white " style="float: right;margin-left: auto;">Application History</a>
-         </div>
+        </div>
           @include('web._components.notifications')
         <div class="card">
             <form method="POST" action="" enctype="multipart/form-data">

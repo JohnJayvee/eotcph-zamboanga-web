@@ -10,7 +10,7 @@ use App\Laravel\Traits\DateFormatter;
 
 use Carbon, Helper, Str;
 
-class Customer extends Authenticatable{
+class TaxCertificate extends Authenticatable{
 
     use Notifiable,SoftDeletes,DateFormatter;
 
@@ -19,7 +19,7 @@ class Customer extends Authenticatable{
      *
      * @var string
      */
-    protected $table = "customer";
+    protected $table = "tax_certificate";
 
     /**
      * The database connection used by the model.
@@ -39,24 +39,28 @@ class Customer extends Authenticatable{
      *
      * @var array
      */
+    protected $fillable = [];
 
-    protected $fillable = ['fname','lname','mname', 'email', 'contact_number',
-        'password'];
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
+
+    protected $appends = [];
 
 
-    public function getNameAttribute(){
-        return Str::title("{$this->fname} ".(strlen($this->mname) > 0 ? Str::title($this->mname): NULL)." {$this->lname} ");
-    }
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [];
 
-    public function getFullNameAttribute(){
-        return Str::title("{$this->fname} {$this->lname} ");
-    }
+    
+   
 
-    public function getAddressAttribute(){
-        return Str::title("{$this->unit_number} {$this->street_name} ");
-    }
 
-    public function getRegionalAddressAttribute(){
-        return Str::title("{$this->region_name} "."-"." {$this->town_name}"."-"."{$this->barangay_name}");
-    }
+
 }

@@ -18,11 +18,11 @@
       <p class="card-description">
         Fill up the <strong class="text-danger">* required</strong> fields.
       </p>
-      <form class="create-form" method="POST" enctype="multipart/form-data" action={{ route('system.other_transaction.store') }}>
+      <form class="create-form" method="POST" enctype="multipart/form-data" >
         @include('system._components.notifications')
         {!!csrf_field()!!}
-        <input type="hidden" name="type" value="{{$type}}">
-        <input type="hidden" name="customer_id" value="{{$customer_id}}">
+        <input type="hidden" name="customer_id" value="{{$customer->id}}">
+        <input type="hidden" name="transaction_type" value="{{$type}}">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -67,7 +67,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="input_title">Tax Certificate Type</label>
-              {!!Form::select("ctc_type", $cert_type, old('ctc_type'), ['id' => "input_ctc_type", 'class' => "form-control ".($errors->first('ctc_type') ? 'border-red' : NULL)])!!}
+              {!!Form::select("ctc_type", $cert_type, old('ctc_type',$ctc->tax_type), ['id' => "input_ctc_type", 'class' => "form-control ".($errors->first('ctc_type') ? 'border-red' : NULL)])!!}
               @if($errors->first('ctc_type'))
               <p class="mt-1 text-danger">{!!$errors->first('ctc_type')!!}</p>
               @endif
@@ -85,7 +85,7 @@
           <div class="col-md-6" id="salary">
             <div class="form-group">
               <label for="height" class="text-form">Income From salary</label>
-              <input type="text" class="form-control" name="income_salary" placeholder="0.00" value="{{old('income_salary')}}" id="input_income_salary">
+              <input type="text" class="form-control" name="income_salary" placeholder="0.00" value="{{old('income_salary',$ctc->income_salary)}}" id="input_income_salary">
               @if($errors->first('income_salary'))
                   <small class="form-text pl-1" style="color:red;">{{$errors->first('income_salary')}}</small>
               @endif
@@ -112,7 +112,7 @@
            <div class="col-md-6" id="additional_tax">
             <div class="form-group">
               <label for="height" class="text-form">Additional Community Tax</label>
-              <input type="text" class="form-control" name="additional_tax" placeholder="0.00" value="{{old('additional_tax')}}" id="input_additional_tax" readonly>
+              <input type="text" class="form-control" name="additional_tax" placeholder="0.00" value="{{old('additional_tax',$ctc->additional_tax)}}" id="input_additional_tax" readonly>
               @if($errors->first('additional_tax'))
                   <small class="form-text pl-1" style="color:red;">{{$errors->first('additional_tax')}}</small>
               @endif
@@ -124,7 +124,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label for="height" class="text-form">SubTotal</label>
-                <input type="text" class="form-control" name="subtotal" placeholder="0.00" value="{{old('subtotal')}}" id="input_subtotal" readonly>
+                <input type="text" class="form-control" name="subtotal" placeholder="0.00" value="{{old('subtotal',$ctc->subtotal)}}" id="input_subtotal" readonly>
                 @if($errors->first('subtotal'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('subtotal')}}</small>
                 @endif
@@ -133,7 +133,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label for="height" class="text-form">Interest</label>
-                <input type="text" class="form-control" name="interest" placeholder="0.00" value="{{old('interest')}}" id="input_interest">
+                <input type="text" class="form-control" name="interest" placeholder="0.00" value="{{old('interest',$ctc->interest)}}" id="input_interest">
                 @if($errors->first('interest'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('interest')}}</small>
                 @endif
@@ -142,7 +142,7 @@
             <div class="col-md-6">
               <div class="form-group" >
                 <label for="height" class="text-form">Total Amount to Pay </label>
-                <input type="text" class="form-control" name="total_amount" placeholder="0.00" value="{{old('total_amount')}}" id="input_total_amount" readonly>
+                <input type="text" class="form-control" name="total_amount" placeholder="0.00" value="{{old('total_amount',$ctc->total_amount)}}" id="input_total_amount" readonly>
                 @if($errors->first('total_amount'))
                     <small class="form-text pl-1" style="color:red;">{{$errors->first('total_amount')}}</small>
                 @endif
@@ -150,7 +150,7 @@
             </div>
         </div>
         
-        <button type="submit" class="btn btn-primary mr-2">Proceed</button>
+        <button type="submit" class="btn btn-primary mr-2">Update</button>
 
         <a href="{{route('system.department.index')}}" class="btn btn-light">Return to Tax Certificate list</a>
       </form>

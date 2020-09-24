@@ -2,6 +2,7 @@
 
 namespace App\Laravel\Services;
 use App\Laravel\Models\Transaction;
+use App\Laravel\Models\TaxCertificate;
 use Route,Str,Carbon,Input,DB,DateTime,DateInterval,DatePeriod;
 
 class Helper{
@@ -70,7 +71,6 @@ class Helper{
 			]
 
 		];
-		
 		return $request;
 	}
 
@@ -80,6 +80,48 @@ class Helper{
 		if($length < 9 ) return 0.9; 
 		if($length < 15) return 1;
 		if($length >= 15 ) return 0.9;
+
+	}
+
+
+	public static function tax($type = NULL){
+		switch ($type) {
+			case 'basic':
+				 return "Basic Community Tax";
+				break;
+			case 'salary':
+				 return "Income From Salary";
+				break;
+			case 'business':
+				 return "Sales From Business";
+				break;
+			case 'property':
+				 return "Income From Real Property Taxes";
+				break;
+			default:
+				 return "";
+				break;
+		}
+
+	}
+
+	public static function tax_amount($id = NULL){
+		$value = TaxCertificate::where('transaction_id',$id)->first();
+		switch ($value->tax_type) {
+
+			case 'salary':
+				 return $value->income_salary;
+				break;
+			case 'business':
+				 return $value->business_sale;
+				break;
+			case 'property':
+				 return $value->income_real_state;
+				break;
+			default:
+				 return "0.00";
+				break;
+		}
 
 	}
 

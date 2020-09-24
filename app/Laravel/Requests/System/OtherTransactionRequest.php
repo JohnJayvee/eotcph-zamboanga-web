@@ -30,22 +30,25 @@ class OtherTransactionRequest extends RequestManager{
 				$rules = [
 					'email' => "required",
 					'contact_number' => "required|max:10|phone:PH",
-					'income_salary' => "required|numeric|min:0",
-					'income_salary_two' => "required|numeric|min:0",
-					'business_sales' => "required|numeric|min:0",
-					'business_sales_two' => "required|numeric|min:0",
-					'income_real_state' => "required|numeric|min:0",
-					'income_real_state_two' => "required|numeric|min:0",
-					'subtotal' => "required|numeric|min:0",
-					'interest' => "required|numeric|min:0",
-					'total_tax_due' => "required|numeric|min:0",
-					'cert_amount' => "required|numeric|min:0",
+					'ctc_type' => "required",
+					'interest' => "nullable|numeric",
+						
 				];
+				switch ($this->get('ctc_type')) {
+					case 'salary':
+						$rules['income_salary'] = "required|numeric";
+					break;
+					case 'business':
+						$rules['business_sales'] = "required|numeric";
+					break;
+					case 'property':
+						$rules['income_real_state'] = "required|numeric";
+					break;
+				}
 				break;
-				break;
+				
 			default:
-				# code...
-				break;
+			break;
 		}
 		
 		return $rules;

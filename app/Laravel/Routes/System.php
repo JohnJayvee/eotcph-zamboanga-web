@@ -67,9 +67,9 @@ Route::group(['as' => "auth."], function(){
 			Route::get('create/{id?}',['as' => "create",'uses' => "OtherTransactionController@create"]);
 			Route::post('store',['as' => "store",'uses' => "OtherTransactionController@store"]);
 			Route::get('show/{id?}',['as' => "show",'uses' => "OtherTransactionController@show",'middleware' => "system.exist:other_transaction"]);
-			// Route::get('edit/{id?}',['as' => "edit",'uses' => "DepartmentController@edit",'middleware' => "system.exist:department"]);
-			// Route::post('edit/{id?}',['uses' => "DepartmentController@update",'middleware' => "system.exist:department"]);
-			// Route::any('delete/{id?}',['as' => "destroy",'uses' => "DepartmentController@destroy",'middleware' => "system.exist:department"]);
+			Route::get('edit/{id?}',['as' => "edit",'uses' => "OtherTransactionController@edit",'middleware' => "system.exist:other_transaction"]);
+			Route::post('edit/{id?}',['uses' => "OtherTransactionController@update",'middleware' => "system.exist:other_transaction"]);
+			Route::get('process/{id?}',['as' => "process",'uses' => "OtherTransactionController@process",'middleware' => "system.exist:other_transaction"]);
 		});
 
 		Route::group(['as' => "application_requirements.",'prefix' => "application-requirements"], function(){

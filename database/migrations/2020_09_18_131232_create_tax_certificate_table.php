@@ -16,16 +16,16 @@ class CreateTaxCertificateTable extends Migration
         Schema::create('tax_certificate', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('transaction_id')->nullable();
-            $table->string('customer_id')->nullable();
+            $table->string('other_customer_id')->nullable();
+            $table->string('tax_type')->nullable();
             $table->string('income_salary')->nullable();
-            $table->string('income_salary_two')->nullable();
             $table->string('business_sales')->nullable();
-            $table->string('business_sales_two')->nullable();
             $table->string('income_real_state')->nullable();
-            $table->string('income_real_state_two')->nullable();
+            $table->string('basic_community_tax')->nullable();
+            $table->string('additional_tax')->nullable();
             $table->string('subtotal')->nullable();
             $table->string('interest')->nullable();
-            $table->string('total_tax_due')->nullable();
+            $table->string('total_amount')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

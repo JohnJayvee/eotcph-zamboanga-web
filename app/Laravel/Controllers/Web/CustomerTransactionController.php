@@ -7,6 +7,8 @@ namespace App\Laravel\Controllers\Web;
  */
 use App\Laravel\Requests\PageRequest;
 use App\Laravel\Requests\Web\TransactionRequest;
+use App\Laravel\Requests\Web\CTCRequest;
+
 /*
  * Models
  */
@@ -16,8 +18,8 @@ use App\Laravel\Models\Department;
 use App\Laravel\Models\ApplicationRequirements;
 use App\Laravel\Models\Application;
 use App\Laravel\Models\TransactionRequirements;
-
-
+use App\Laravel\Models\OtherCustomer;
+use App\Laravel\Models\TaxCertificate;
 /* App Classes
  */
 use App\Laravel\Events\SendReference;
@@ -33,18 +35,32 @@ class CustomerTransactionController extends Controller
 	public function __construct(){
 		parent::__construct();
 		array_merge($this->data, parent::get_data());
-
+		$this->data['genders'] = ['' => "Choose Gender",'male' =>  "Male",'female' => "Female"];
+		$this->data['cert_type'] = ['' => "Choose CTC type",'basic' =>  "Basic Community Tax",'salary' =>  "Income From Salary",'business' => "Sales From Business",'property' => "Income from real property taxes"];
+		$this->data['civil_status'] = ['' => "Choose Type",'single' =>  "Single",'married' => "Married",'seperated' => "Seperated",'widow' => "Widow"];
 		$this->data['department'] = ['' => "Choose Department"] + Department::pluck('name', 'id')->toArray();
 		$this->per_page = env("DEFAULT_PER_PAGE",10);
 	}
 
 		
 	public function create(PageRequest $request){
-		
 		$this->data['page_title'] = "E-Submission";
-		return view('web.transaction.create',$this->data);
+		$auth = Auth::guard('customer')->user();
+		switch ($request->get('type')) {
+			case 'e_submission':
+				return view('web.transaction.create',$this->data);
+			break;
+			case 'ctc':
+				$this->data['other_customer'] = OtherCustomer::where('customer_id', $auth->id)->first();
+				return view('web.transaction.ctc',$this->data);
+				break;
+			default:
+				$this->data['other_customer'] = OtherCustomer::where('customer_id', $auth->id)->first();
+				return view('web.transaction.ctc',$this->data);
+			break;
+		}
+		
 	}
-
 
 	public function store(TransactionRequest $request){
 
@@ -122,7 +138,7 @@ class CustomerTransactionController extends Controller
 			}
 
 			session()->flash('notification-status', "success");
-			session()->flash('notification-msg','pplication was successfully submitted. Please wait for the processor validate your application. You will received an email once its approved containing your reference code for payment.');
+			session()->flash('notification-msg','Application was successfully submitted. Please wait for the processor validate your application. You will received an email once its approved containing your reference code for payment.');
 			return redirect()->route('web.transaction.history');
 			
 		}catch(\Exception $e){
@@ -133,10 +149,103 @@ class CustomerTransactionController extends Controller
 
 		}
 		
-			
-		
+	}
+
+	public function other_store(CTCRequest $request){
+		$temp_id = time();
+		$auth = Auth::guard('customer')->user();
+		$other_customer = OtherCustomer::where('customer_id', $auth->id)->first();
+		DB::beginTransaction();
+		try{
+			if ($other_customer) {
+				$other_customer->tin_no = $request->get('tin_no');
+				$other_customer->citizenship = $request->get('citizenship');
+				$other_customer->gender = $request->get('gender');
+				$other_customer->birthday = $request->get('birthdate');
+				$other_customer->status = $request->get('status');
+				$other_customer->place_of_birth = $request->get('place_of_birth');
+				$other_customer->height = $request->get('height');
+				$other_customer->weight = $request->get('weight');
+				$other_customer->occupation = $request->get('occupation');
+				$other_customer->save();
+
+			}else{
+				$new_other_customer = new OtherCustomer;
+				$new_other_customer->customer_id = $auth->id;
+				$new_other_customer->firstname = $request->get('firstname');
+				$new_other_customer->middlename = $request->get('middlename');
+				$new_other_customer->lastname = $request->get('lastname');
+				$new_other_customer->address = $request->get('address');
+				$new_other_customer->tin_no = $request->get('tin_no');
+				$new_other_customer->citizenship = $request->get('citizenship');
+				$new_other_customer->gender = $request->get('gender');
+				$new_other_customer->birthday = $request->get('birthdate');
+				$new_other_customer->status = $request->get('status');
+				$new_other_customer->place_of_birth = $request->get('place_of_birth');
+				$new_other_customer->height = $request->get('height');
+				$new_other_customer->weight = $request->get('weight');
+				$new_other_customer->occupation = $request->get('occupation');
+				$new_other_customer->email = $auth->email;
+				$new_other_customer->contact_number = $auth->contact_number;
+				$new_other_customer->save();
+			}
+			$new_other_transaction = new OtherTransaction;
+			$new_other_transaction->customer_id = $other_customer ? $other_customer->id : $new_other_customer->id;
+			$new_other_transaction->type = 2;
+			$new_other_transaction->email = $auth->email;
+			$new_other_transaction->contact_number = $auth->contact_number;
+			$new_other_transaction->amount = $request->get('total_amount');
+			$new_other_transaction->application_name = "Community Tax Certificate";
+			$new_other_transaction->application_date = Carbon::now();
+			$new_other_transaction->code = 'EOTC-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
+
+			$new_other_transaction->processing_fee_code = 'OT-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
+
+			$new_other_transaction->save();
+
+				$new_tax_certificate = new TaxCertificate;
+				$new_tax_certificate->transaction_id = $new_other_transaction->id;
+				$new_tax_certificate->other_customer_id = $other_customer ? $other_customer->id : $new_other_customer->id;
+				$new_tax_certificate->tax_type = $request->get('ctc_type');
+				$new_tax_certificate->additional_tax = $request->get('additional_tax');
+				$new_tax_certificate->subtotal = $request->get('subtotal');
+				$new_tax_certificate->total_amount = $request->get('total_amount');
+
+			switch ($request->get('ctc_type')) {
+				case 'salary':
+					$new_tax_certificate->income_salary = $request->get('income_salary');
+				break;
+				case 'business':
+					$new_tax_certificate->business_sales = $request->get('business_sales');
+				break;
+				case 'salary':
+					$new_tax_certificate->income_real_state = $request->get('income_real_state');
+				break;
+				default:
+				break;
+			}
+			$new_tax_certificate->save();
+			DB::commit();
+			session()->flash('notification-status', "success");
+			session()->flash('notification-msg','Community Tax Certificate application was successfully submitted. Please wait for the processor validate your application. You will received an email once its approved containing your reference code for payment.');
+			return redirect()->route('web.transaction.history');
+		}catch(\Exception $e){
+			DB::rollback();
+			session()->flash('notification-status', "failed");
+			session()->flash('notification-msg', "Server Error: Code #{$e->getLine()}");
+			return redirect()->back();
+		}
 	}
 	public function history(){
+		$auth_id = Auth::guard('customer')->user()->id;
+
+		$this->data['transactions'] = Transaction::where('customer_id', $auth_id)->orderBy('created_at',"DESC")->get();
+		$this->data['page_title'] = "Application history";
+		return view('web.transaction.history',$this->data);
+
+	}
+
+	public function ctc_history(){
 		$auth_id = Auth::guard('customer')->user()->id;
 
 		$this->data['transactions'] = Transaction::where('customer_id', $auth_id)->orderBy('created_at',"DESC")->get();
@@ -237,6 +346,7 @@ class CustomerTransactionController extends Controller
 		$prefix = explode('-', $code)[0];
 
 		$code = strtolower($code);
+		
 		$amount = 0;
 		$status = NULL;
 		switch (strtoupper($prefix)) {
@@ -283,7 +393,7 @@ class CustomerTransactionController extends Controller
 			return redirect()->back();
 		}
 
-		$amount = $prefix == 'APP' ? $transaction->amount : $transaction->processing_fee;
+		$amount = $prefix == 'APP' || $prefix == 'OT' ? $transaction->amount : $transaction->processing_fee;
 
 		$customer = $transaction->customer;
 

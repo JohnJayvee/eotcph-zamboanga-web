@@ -21,10 +21,8 @@ class CreateOtherTransactionTable extends Migration
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('processing_fee_code')->nullable();
-            $table->string('transaction_code')->nullable();
+            $table->string('amount')->nullable();
             $table->string('application_name')->nullable();
-
-            $table->string('processing_fee')->nullable();
             $table->string('payment_reference')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('payment_option')->nullable();
@@ -34,11 +32,8 @@ class CreateOtherTransactionTable extends Migration
             $table->string('total_amount')->nullable();
             $table->string('convenience_fee')->nullable();
             $table->date('payment_date')->nullable();
-            $table->string('amount')->nullable();
-
-           
+            $table->string('status')->default("PENDING")->nullable();
             $table->string('processor_user_id')->nullable();
-            $table->string('status')->nullable()->default('PENDING');
             $table->timestamp('application_date')->nullable();
             $table->timestamp('modified_at')->nullable();
             $table->text('remarks')->nullable();

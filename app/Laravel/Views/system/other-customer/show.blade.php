@@ -28,19 +28,17 @@
           <label for="input_title">Address</label>
           <input type="text" class="form-control" id="input_address" name="address" placeholder="Address" value="{{$other_customer->address}}" readonly>
         </div>
-
         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="input_title">Contact Number</label>
-              <input type="text" class="form-control" id="input_contact_number" name="contact_number" placeholder="Contact Number" value="{{$other_customer->contact_number}}" readonly>
-            
-              </div>
-          </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               <label for="input_title">Email</label>
               <input type="text" class="form-control" id="input_email" name="email" placeholder="Email" value="{{$other_customer->email}}" readonly>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="input_title">Contact Number</label>
+              <input type="text" class="form-control" id="input_contact_number" name="contact_number" placeholder="Contact Number" value="{{$other_customer->contact_number}}" readonly>
             </div>
           </div>
         </div>
@@ -107,7 +105,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-7 grid-margin ">
+  <div class="col-md-7 grid-margin">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">List of Transaction</h4>
@@ -119,20 +117,29 @@
           <thead>
             <th>Processing Fee Code</th>
             <th>Transaction Type</th>
-            <th>Created By(Processor)</th>
+            <!-- <th>Created By(Processor)</th> -->
             <th>Transaction Status</th>
+            <th>Action</th>
           </thead>
           <tbody>
             @forelse($transactions as $transaction)
               <tr>
                 <td>{{$transaction->processing_fee_code}}</td>
                 <td>{{$transaction->transac_type->name}}</td>
-                <td>{{$transaction->admin->full_name}}</td>
+                <!-- <td>{{$transaction->admin ? $transaction->admin->full_name: "--"}}</td> -->
                 <th class="text-center">
                   <div>{{$transaction->processing_fee ?: 0 }}</div>
                   <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
                   <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
                 </th>
+                <td >
+                  <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
+                    <a class="dropdown-item" href="{{route('system.other_transaction.show',[$transaction->id])}}">View transaction</a>
+                    <a class="dropdown-item" href="{{route('system.other_transaction.edit',[$transaction->id])}}?type={{$transaction->type}}">Edit transaction</a>
+                   <!--  <a class="dropdown-item action-delete"  data-url="#" data-toggle="modal" data-target="#confirm-delete">Remove Record</a> -->
+                  </div>
+                </td>
               </tr>
             @empty
 

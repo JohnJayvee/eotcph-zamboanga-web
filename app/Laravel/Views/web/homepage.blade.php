@@ -16,7 +16,7 @@
                         <h5 style="letter-spacing: 3px;"><i class="fa fa-file"></i> E<span class="font-weight-lighter">SUBMISSION</span></h5>
                     </div>
                      <div class="col-lg-12">
-                        <a href="{{route('web.transaction.create')}}" class="btn btn-white"> <i class="fa fa-laptop"></i> Submit</a>
+                        <a href="#" data-url="{{route('web.transaction.create')}}" class="btn btn-white btn-submission"> <i class="fa fa-laptop"></i> Submit</a>
                     </div>
                     <div class="col-lg-12 pt-4">
                         <h5 style="letter-spacing: 3px;"><i class="fa fa-calculator"></i> E<span class="font-weight-lighter">PAYMENT</span></h5>
@@ -55,9 +55,43 @@
 
 @stop
 @section('page-styles')
+<link rel="stylesheet" href="{{asset('system/vendors/sweet-alert2/sweetalert2.min.css')}}">
 <style type="text/css">
     .input-transparent{
         color:#fff;
     }
+    
 </style>
 @endsection
+@section('page-scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="{{asset('system/vendors/sweet-alert2/sweetalert2.min.js')}}"></script>
+    <script type="text/javascript">
+
+        $(".btn-submission").on('click', function(){
+                var url = $(this).data('url');
+                var self = $(this);
+
+                (async () => {
+
+                const {value: type} = await Swal.fire({
+                    title: 'Please choose a transaction',
+                    text: 'Are you applying for?',
+                    input: 'select',
+                    inputOptions: {
+                        'e_submission': 'E-Submissions',
+                        'ctc': 'Community Tax Certificate'
+                    },
+                    inputPlaceholder: 'Select Type',
+                    showCancelButton: true,
+                  
+                })
+                if (type) {
+                    window.location.href = url + "?type="+type;
+                }
+                })()
+                                
+        });
+      
+    </script>
+@stop

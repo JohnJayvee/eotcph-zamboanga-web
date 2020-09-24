@@ -27,26 +27,79 @@
           </div>
         </div> 
       </div>
-      <div class="card-body">
+      <div class="card-body" style="border-bottom: 3px dashed #E3E3E3;">
         <div class="row">
           <div class="col-md-6">
             <p class="text-title fw-500">Applying For: <span class="text-black">{{$transaction->type ? Str::title($transaction->transac_type->name) : "N/A"}} [{{$transaction->code}}]</span></p>
             <p class="text-title fw-500">Email Address: <span class="text-black">{{$transaction->email}}</span></p>
+            <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->amount)}}  [{{$transaction->processing_fee_code}}]</p>
           </div>
           <div class="col-md-6">
             <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
             <p class="text-title fw-500">Payment Status: <span class="text-black">{{Str::title($transaction->payment_status)}}</span></p>
-          </div>
-          <div class="col-md-6">
-             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}  [{{$transaction->processing_fee_code}}]</p>
+            <p class="text-title fw-500">Transaction Status: <span class="text-black">{{Str::title($transaction->transaction_status)}}</span></p>
           </div>
         </div> 
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <p class="text-title fw-500">Community Tax Certificate Type: <span class="text-black">{{ $ctc ? Helper::tax($ctc->tax_type) : ""}}</span></p>
+            <p class="text-title fw-500">Additional Community tax: <span class="text-black">Php {{Helper::money_format($ctc->additional_tax)}}</span></p>
+            <p class="text-title fw-500">Subtotal: <span class="text-black">Php {{Helper::money_format($ctc->subtotal)}}</span></p>
+            <p class="text-title fw-500">Total Amount to Pay: <span class="text-black">Php {{Helper::money_format($ctc->total_amount)}}</span></p>
+          </div>
+          <div class="col-md-6">
+            <p class="text-title fw-500">Community Tax Due: <span class="text-black">PHP 5.00</span></p>
+            <p class="text-title fw-500">Declared Amount: <span class="text-black">Php {{Helper::money_format(Helper::tax_amount($ctc->transaction_id))}}</span></p>
+            <p class="text-title fw-500">Interest: <span class="text-black">Php {{Helper::money_format($ctc->interest) ?: "0.00"}}</p>
+          </div>
+         
+        </div> 
+      </div>
+    </div>
+    <a data-url="{{route('system.other_transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
+    <a  data-url="{{route('system.other_transaction.process',[$transaction->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+  </div>
+</div>
+@stop
+
+@section('page-modals')
+<div id="confirm-process" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm your action</h5>
+      </div>
+
+      <div class="modal-body">
+        <h6 class="text-semibold">Processing Record...</h6>
+        <p>You are about to process a record, this action can no longer be undone, are you sure you want to proceed?</p>
+
+        <hr>
+
+        <h6 class="text-semibold">What is this message?</h6>
+        <p>This dialog appears everytime when the chosen action could hardly affect the system. Usually, it occurs when the system is issued a delete command.</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+        <a href="#" class="btn btn-sm btn-primary" id="btn-confirm-process">Process</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="checkImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">              
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> 
+        <img src="" class="imagepreview" alt="bank_chalan" id="thanks" style="width: 100%;" >
       </div>
     </div>
   </div>
 </div>
 @stop
-
 
 
 @section('page-styles')

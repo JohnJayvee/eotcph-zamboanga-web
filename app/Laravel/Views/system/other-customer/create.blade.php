@@ -34,7 +34,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="input_title">Middle Name</label>
-              <input type="text" class="form-control {{$errors->first('middlename') ? 'is-invalid' : NULL}}" id="input_middlename" name="middlename" placeholder="First name" value="{{old('middlename')}}">
+              <input type="text" class="form-control {{$errors->first('middlename') ? 'is-invalid' : NULL}}" id="input_middlename" name="middlename" placeholder="Middle name" value="{{old('middlename')}}">
               @if($errors->first('middlename'))
               <p class="mt-1 text-danger">{!!$errors->first('middlename')!!}</p>
               @endif

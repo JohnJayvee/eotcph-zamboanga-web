@@ -13,6 +13,9 @@
 <link rel="stylesheet" href="{{asset('web/css/site.css?v=1.02')}}">
 
 <style type="text/css">
+    body.swal2-height-auto {
+        padding-right: 0px !important;
+    }
     .bg-transparent.affix {background: rgba(29,29,31,0.72)!important; 
         -webkit-backdrop-filter: saturate(180%) blur(20px);
         backdrop-filter: saturate(180%) blur(20px);

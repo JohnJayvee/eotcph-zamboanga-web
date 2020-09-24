@@ -23,6 +23,7 @@ class CreateTransactionRequirementsTable extends Migration
             $table->string('filename')->nullable();
             $table->string('original_name')->nullable();
             $table->string('source')->default("file")->nullable();
+            $table->string('transac_type')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
