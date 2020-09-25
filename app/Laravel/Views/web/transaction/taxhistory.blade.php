@@ -19,7 +19,6 @@
                 <th class="text-title fs-15 fs-500 p-3">FUll Name</th>
                 <th class="text-title fs-15 fs-500 p-3">Application Type</th>
                 <th class="text-title fs-15 fs-500 p-3 ">Amount</th>
-                <th class="text-title fs-15 fs-500 p-3">Transaction Status</th>
                 <th class="text-title fs-15 fs-500 p-3">Application Status</th>
                 <th class="text-title fs-15 fs-500 p-3">Date</th>
               </tr>
@@ -39,11 +38,6 @@
                   </div>
                 </td>
                 <td>
-                  <div class="mt-3">
-                    <small><span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->status)}} p-2 pt-2">{{Str::upper($tax_transaction->status)}}</span></small>
-                  </div>
-                </td>
-                <td style="vertical-align: middle;">
                   <div>
                     <span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->status)}} p-2">{{Str::upper($tax_transaction->status)}}</span>
                   </div>
