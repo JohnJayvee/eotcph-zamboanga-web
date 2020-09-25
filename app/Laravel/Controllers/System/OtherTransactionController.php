@@ -107,7 +107,7 @@ class OtherTransactionController extends Controller
 					DB::commit();
 					session()->flash('notification-status', "success");
 					session()->flash('notification-msg', "Transaction has been added.");
-					return redirect()->route('system.other_transaction.index');
+					return redirect()->route('system.other_customer.show',[$request->get('customer_id')]);
 				}catch(\Exception $e){
 					DB::rollback();
 					session()->flash('notification-status', "failed");
