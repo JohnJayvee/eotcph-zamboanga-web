@@ -412,7 +412,7 @@ class CustomerTransactionController extends Controller
 				'particular_fee' => $amount,
 				'success_url' => route('web.digipep.success',[$code]),
 				'cancel_url' => route('web.digipep.cancel',[$code]),
-				'return_url' => route('web.confirmation',[$code]),
+				'return_url' => route('web.confirmation.index',[$code]),
 				'failed_url' => route('web.digipep.failed',[$code]),
 				'first_name' => $user ? $user->fname : $customer->firstname,
 				'middle_name' => $user ? $user->mname : $customer->middlename,

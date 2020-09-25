@@ -47,7 +47,6 @@ Route::group(['as' => "web.",
 		
 	});
 
-	Route::any('confirmation/{code}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
 	
 
 });
@@ -56,7 +55,10 @@ Route::group(['as' => "web.",
 Route::group(['as' => "web.",
 		 'namespace' => "Web",
 		],function() {
-	
+	Route::group(['prefix' => "confirmation",'as' => "confirmation."],function(){
+		Route::any('/{code}',['as' => "index",'uses' => "MainController@confirmation"]);
+		
+	});
 	Route::group(['prefix' => "digipep",'as' => "digipep."],function(){
 		Route::any('success/{code}',['as' => "success",'uses' => "DigipepController@success"]);
 		Route::any('cancel/{code}',['as' => "cancel",'uses' => "DigipepController@cancel"]);
