@@ -24,6 +24,7 @@
         <input type="hidden" name="type" value="{{$type}}">
         <input type="hidden" name="customer_id" value="{{$customer_id}}">
         <input type="hidden" name="violation_count" value="{{$violation_count}}">
+        <input type="hidden" name="violation_name" value="{{old('violation_name')}}" id="input_violation_name">
         <div class="row">
         	<div class="col-md-4">
        			<div class="form-group">
@@ -181,6 +182,13 @@
       todayBtn: true,
       minuteStep: 15,
     })
+
+
+    $("#input_violation").on("change",function(){
+        var _val = $(this).val();
+        var _text = $("#input_violation option:selected").text();
+        $("#input_violation_name").val(_text);
+    });
 
   })
 </script>

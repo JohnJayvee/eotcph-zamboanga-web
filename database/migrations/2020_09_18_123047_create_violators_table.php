@@ -24,6 +24,7 @@ class CreateViolatorsTable extends Migration
             $table->string('place_of_violation')->nullable();
             $table->string('date_time')->nullable();
             $table->string('violation')->nullable();
+            $table->string('violation_name')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

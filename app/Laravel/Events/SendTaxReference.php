@@ -35,7 +35,7 @@ class SendTaxReference extends Event {
 			$nexmo = Nexmo::message()->send([
 				'to' => '+63'.(int)$phone,
 				'from' => 'EOTCPH' ,
-				'text' => "Hello <" . $full_name . ">, good day! This is your payment reference number <".$ref_num."> amounting to PHP <" .$amount. "> for getting Community Tax Certificate.\r\n\n Please visit the <http://18.138.0.249/> and input the payment reference number to the E-Payment section to pay. This payment reference number will expire on 11:59 PM. You can pay via online(Debit/Credit card, e-wallet, etc.) or over-the-counter (7Eleven, Bayad Center, Cebuana Lhuillier, and to other affiliated partners) \r\n\n Note: If you failed to pay before your payment reference number expires, you can get a new reference number at the <http://18.138.0.249/> and will be charged with a penalty."
+				'text' => "Hello " . $full_name . ", good day! This is your payment reference number ".$ref_num." amounting to PHP <" .$amount. "> for getting Community Tax Certificate.\r\n\n Please visit the http://18.138.0.249/ and input the payment reference number to the E-Payment section to pay. This payment reference number will expire on 11:59 PM. You can pay via online(Debit/Credit card, e-wallet, etc.) or over-the-counter (7Eleven, Bayad Center, Cebuana Lhuillier, and to other affiliated partners) \r\n\n Note: If you failed to pay before your payment reference number expires, you can get a new reference number at the http://18.138.0.249/ and will be charged with a penalty."
 			]);
 			
 		}
