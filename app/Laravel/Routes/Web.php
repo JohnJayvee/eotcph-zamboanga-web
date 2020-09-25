@@ -47,7 +47,7 @@ Route::group(['as' => "web.",
 		
 	});
 
-	Route::get('confirmation/{code}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
+	Route::any('confirmation/{code}',['as' => "confirmation",'uses' => "MainController@confirmation"]);
 	
 
 });

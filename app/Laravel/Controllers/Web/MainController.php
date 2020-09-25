@@ -84,7 +84,9 @@ class MainController extends Controller{
 		
 		return response()->json($response, 200);
 	}
-	public function confirmation($code = NULL){
+	public function confirmation(PageRequest $request,$code = NULL){
+		$response = json_decode(json_encode($request->all()));
+		dd($response);
 		$this->data['page_title'] = " :: confirmation";
 
 		$prefix = explode('-', $code);
