@@ -62,6 +62,7 @@ class OtherTransactionController extends Controller
 					$new_other_transaction->customer_id = $request->get('customer_id');
 					$new_other_transaction->type = 1;
 					$new_other_transaction->email = $request->get('email');
+					$new_other_transaction->status = "APPROVED";
 					$new_other_transaction->contact_number = $request->get('contact_number');
 					$new_other_transaction->application_name = "Ticket Violation";
 					if ($request->get('violation_count') == 0) {

@@ -119,6 +119,7 @@
             <th>Transaction Type</th>
             <!-- <th>Created By(Processor)</th> -->
             <th>Transaction Status</th>
+            <th>Application Status</th>
             <th>Action</th>
           </thead>
           <tbody>
@@ -131,6 +132,9 @@
                   <div>{{$transaction->processing_fee ?: 0 }}</div>
                   <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->payment_status)}} p-2">{{Str::upper($transaction->payment_status)}}</span></small></div>
                   <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->transaction_status)}} p-2 mt-1">{{Str::upper($transaction->transaction_status)}}</span></small></div>
+                </th>
+                <th class="text-center">
+                  <div><small><span class="badge badge-pill badge-{{Helper::status_badge($transaction->status)}} p-2 mt-1">{{Str::upper($transaction->status)}}</span></small></div>
                 </th>
                 <td >
                   <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>

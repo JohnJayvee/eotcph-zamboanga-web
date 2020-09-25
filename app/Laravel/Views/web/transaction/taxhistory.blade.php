@@ -19,7 +19,8 @@
                 <th class="text-title fs-15 fs-500 p-3">FUll Name</th>
                 <th class="text-title fs-15 fs-500 p-3">Application Type</th>
                 <th class="text-title fs-15 fs-500 p-3 ">Amount</th>
-                <th class="text-title fs-15 fs-500 p-3">Status</th>
+                <th class="text-title fs-15 fs-500 p-3">Transaction Status</th>
+                <th class="text-title fs-15 fs-500 p-3">Application Status</th>
                 <th class="text-title fs-15 fs-500 p-3">Date</th>
               </tr>
             </thead>
@@ -28,13 +29,18 @@
               <tr class="text-center">
                 <td>{{$tax_transaction->customer->full_name}}</th>
                 <td>{{$tax_transaction->transac_type->name}}</th>
-                <td style="text-align: center;">
+                <td>
                   <div>{{$tax_transaction->amount ?: 0 }}</div>
                   <div>
                     <small><span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->payment_status)}} p-2">{{Str::upper($tax_transaction->payment_status)}}</span></small>
                   </div>
                   <div class="mt-3">
                     <small><span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->transaction_status)}} p-2 pt-2">{{Str::upper($tax_transaction->transaction_status)}}</span></small>
+                  </div>
+                </td>
+                <td>
+                  <div class="mt-3">
+                    <small><span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->status)}} p-2 pt-2">{{Str::upper($tax_transaction->status)}}</span></small>
                   </div>
                 </td>
                 <td style="vertical-align: middle;">
