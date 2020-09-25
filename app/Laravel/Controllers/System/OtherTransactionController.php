@@ -48,7 +48,7 @@ class OtherTransactionController extends Controller
 		$this->data['type'] = $request->get('type');
 		$this->data['customer_id'] = $id;
 		$this->data['customer'] = OtherCustomer::find($id);
-		$this->data['violation_count'] = OtherTransaction::where('customer_id' , $id)->count();
+		$this->data['violation_count'] = Violators::where('customer_id' , $id)->count();
 		$this->data['page_title'] .= " - Add new record";
 		return view('system.other-transaction.'.$request->get('type'),$this->data);
 	}
@@ -86,7 +86,8 @@ class OtherTransactionController extends Controller
 					$new_violators->transaction_id = $new_other_transaction->id;
 					$new_violators->ticket_no = $request->get('ticket_no');
 					$new_violators->customer_id = $request->get('customer_id');
-					
+
+					$new_violators->p_firstname = $request->get('p_middlename');
 					$new_violators->p_middlename = $request->get('p_middlename');
 					$new_violators->p_lastname = $request->get('p_lastname');
 					
