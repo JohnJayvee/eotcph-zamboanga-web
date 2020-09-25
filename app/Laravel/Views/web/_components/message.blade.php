@@ -49,6 +49,7 @@
                     <div class="card login-signup-card shadow-lg mb-0">
                         <div class="card-body px-md-5 py-5">
                             <div class="text-center">
+                                {{$transaction->status}} {{$prefix}}
                                 @if(($prefix == "APP" AND $transaction->application_transaction_status == "COMPLETED") || ($prefix == "PF" AND $transaction->transaction_status == "COMPLETED") || ($prefix == "OT" AND $transaction->transaction_status == "COMPLETED"))
                                     <span class="text-6xl">
                                         <i class="fas fa-check-circle status-success"></i>

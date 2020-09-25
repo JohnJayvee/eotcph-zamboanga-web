@@ -112,8 +112,6 @@ class MainController extends Controller{
 
 			$this->data['transaction'] = $transaction;
 			$this->data['prefix'] = strtoupper($prefix[0]);
-			dd($this->data['prefix']);
-			dd($transaction);
 			return view('web._components.message',$this->data);
 		}
 
