@@ -26,8 +26,8 @@
             <tbody>
               @forelse($tax_transactions as $tax_transaction)
               <tr class="text-center">
-                <td>{{$tax_transaction->customer->full_name}}</th>
-                <td>{{$tax_transaction->transac_type->name}}</th>
+                <td style="vertical-align: middle;">{{$tax_transaction->customer->full_name}}</th>
+                <td style="vertical-align: middle;">{{$tax_transaction->transac_type->name}}</th>
                 <td>
                   <div>{{$tax_transaction->amount ?: 0 }}</div>
                   <div>
@@ -37,12 +37,12 @@
                     <small><span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->transaction_status)}} p-2 pt-2">{{Str::upper($tax_transaction->transaction_status)}}</span></small>
                   </div>
                 </td>
-                <td>
+                <td style="vertical-align: middle;">
                   <div>
                     <span class="badge badge-pill badge-{{Helper::status_badge($tax_transaction->status)}} p-2">{{Str::upper($tax_transaction->status)}}</span>
                   </div>
                 </td>
-                <td>{{Helper::date_format($tax_transaction->created_at)}}</td>
+                <td style="vertical-align: middle;">{{Helper::date_format($tax_transaction->created_at)}}</td>
               </tr>
               @empty
               <tr>

@@ -89,7 +89,7 @@
           </tr>
           @empty
           <tr>
-           <td colspan="5" class="text-center"><i>No transaction Records Available.</i></td>
+           <td colspan="7" class="text-center"><i>No transaction Records Available.</i></td>
           </tr>
           @endforelse
           

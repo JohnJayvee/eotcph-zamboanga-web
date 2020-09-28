@@ -39,10 +39,12 @@
             <p class="text-title fw-500">Contact Number: <span class="text-black">+63{{$transaction->customer->contact_number}}</span></p>
           </div>
           <div class="col-md-6">
-             <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}  [{{$transaction->processing_fee_code}}]</p>
+            <p class="fw-500" style="color: #DC3C3B;">Amount: Php {{Helper::money_format($transaction->processing_fee)}}  [{{$transaction->processing_fee_code}}]</p>
+            @if($transaction->status == "DECLINED")
+              <p class="text-title fw-500">Remarks: <span class="text-black">{{Str::title($transaction->remarks)}}</span></p>
+            @endif
           </div>
           <div class="col-md-6">
-           
             <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($transaction->status)}}</span></p>
           </div>
 
@@ -79,8 +81,8 @@
                   <td >
                     <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuSplitButton2">
-                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=approved" data-toggle="modal" data-target="#confirm-process">Approve</a>
-                      <a class="dropdown-item action-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=declined"  data-toggle="modal" data-target="#confirm-process">Decline</a>
+                      <a class="dropdown-item btn-file-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=approved">Approve</a>
+                      <a class="dropdown-item btn-file-process" href="#" data-url="{{route('system.transaction.requirements',[$attachment->id])}}?status=declined" >Decline</a>
                     </div>
                   </td>
                   @endif
@@ -97,8 +99,8 @@
 
     @if(Auth::user()->type == "processor")
       @if($transaction->status == "PENDING" || $transaction->status == "ONGOING")
-        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved" data-toggle="modal" data-target="#confirm-process" class="btn btn-primary mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
-        <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" data-toggle="modal" data-target="#confirm-process" class="btn btn-danger mt-4 border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
+        <a data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=approved"  class="btn btn-primary mt-4 btn-approve border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}"><i class="fa fa-check-circle"></i> Approve Transactions</a>
+        <a  data-url="{{route('system.transaction.process',[$transaction->id])}}?status_type=declined" class="btn btn-danger mt-4 btn-decline border-5 text-white action-process {{$transaction->status == 'approved' ? "isDisabled" : ""}}""><i class="fa fa-times-circle"></i> Decline Transactions</a>
       @endif
     @endif
   </div>
@@ -106,46 +108,8 @@
 </div>
 @stop
 
-@section('page-modals')
-<div id="confirm-process" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirm your action</h5>
-      </div>
-
-      <div class="modal-body">
-        <h6 class="text-semibold">Processing Record...</h6>
-        <p>You are about to process a record, this action can no longer be undone, are you sure you want to proceed?</p>
-
-        <hr>
-
-        <h6 class="text-semibold">What is this message?</h6>
-        <p>This dialog appears everytime when the chosen action could hardly affect the system. Usually, it occurs when the system is issued a delete command.</p>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-        <a href="#" class="btn btn-sm btn-primary" id="btn-confirm-process">Process</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="checkImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">              
-      <div class="modal-body">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> 
-        <img src="" class="imagepreview" alt="bank_chalan" id="thanks" style="width: 100%;" >
-      </div>
-    </div>
-  </div>
-</div>
-@stop
-
 @section('page-styles')
+<link rel="stylesheet" href="{{asset('system/vendors/sweet-alert2/sweetalert2.min.css')}}">
 <link rel="stylesheet" href="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
 <style type="text/css" >
   .input-daterange input{ background: #fff!important; }  
@@ -161,6 +125,8 @@
 @stop
 
 @section('page-scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{asset('system/vendors/sweet-alert2/sweetalert2.min.js')}}"></script>
 <script src="{{asset('system/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script type="text/javascript">
   $(function(){
@@ -168,16 +134,63 @@
       format : "yyyy-mm-dd"
     });
 
-    $(".action-process").on("click",function(){
-      var btn = $(this);
-      $("#btn-confirm-process").attr({"href" : btn.data('url')});
+    $(".btn-decline").on('click', function(){
+      var url = $(this).data('url');
+      var self = $(this)
+      Swal.fire({
+        title: "Are you sure you want to decline this application?",
+        text: "You will not be able to undo this action, proceed?",
+        icon: 'warning',
+        input: 'text',
+        inputPlaceholder: "Put remarks",
+        showCancelButton: true,
+        confirmButtonText: 'Decline',
+        cancelButtonColor: '#d33'
+      }).then((result) => {
+        if (result.value === "") {
+          alert("You need to write something")
+          return false
+        }
+        if (result.value) {
+          window.location.href = url + "&remarks="+result.value;
+        }
+      });
+    });
+    $(".btn-approve").on('click', function(){
+      var url = $(this).data('url');
+      var btn = $(this)
+      Swal.fire({
+        title: 'Are you sure you want to approve this application?',
+        text: "You will not be able to undo this action, proceed?",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Approve!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      })
+    });
+    $(".btn-file-process").on('click', function(){
+      var url = $(this).data('url');
+      var btn = $(this)
+      Swal.fire({
+        title: 'Are you sure you want to proceed?',
+        text: "You will not be able to undo this action, proceed?",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Proceed!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      })
     });
 
-    $('#checkImage').on('show.bs.modal', function (e) {
-      var img = $(e.relatedTarget).data('myimage');
-      //alert(img);
-      $("#thanks").attr("src", img);
-    });  
   })
 </script>
 @stop

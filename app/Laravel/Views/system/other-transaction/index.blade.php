@@ -54,6 +54,7 @@
             <th class="text-title fs-15 fs-500 p-3">Transaction Type</th>
             <th class="text-title fs-15 fs-500 p-3">Created by</th>
             <th class="text-title fs-15 fs-500 p-3 text-center">Transaction Status</th>
+            <th class="text-title fs-15 fs-500 p-3 text-center">Application Status</th>
             <th class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
@@ -68,6 +69,11 @@
               <div>{{$other_transaction->amount ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->payment_status)}} p-2">{{Str::upper($other_transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->transaction_status)}} p-2 mt-1">{{Str::upper($other_transaction->transaction_status)}}</span></small></div>
+            </th>
+            <th> 
+              <div>
+                <small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->status)}} p-2 mt-1">{{Str::upper($other_transaction->status)}}</span></small>
+              </div>
             </th>
             <td >
               <button type="button" class="btn btn-sm p-0" data-toggle="dropdown" style="background-color: transparent;"> <i class="mdi mdi-dots-horizontal" style="font-size: 30px"></i></button>

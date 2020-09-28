@@ -128,6 +128,7 @@ class OtherTransactionController extends Controller
 					$new_other_transaction->amount = $request->get('total_amount');
 					$new_other_transaction->application_name = "Community Tax Certificate";
 					$new_other_transaction->processor_user_id = Auth::user()->id;
+					$new_other_transaction->status = "APPROVED";
 					$new_other_transaction->save();
 					$new_other_transaction->code = 'EOTC-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
 					$new_other_transaction->processing_fee_code = 'OT-' . Helper::date_format(Carbon::now(), 'ym') . str_pad($new_other_transaction->id, 5, "0", STR_PAD_LEFT) . Str::upper(Str::random(3));
@@ -257,18 +258,20 @@ class OtherTransactionController extends Controller
 
 		try{
 			$transaction = $request->get('other_transaction_data');
-			$transaction->transaction_status = strtoupper($request->get('status_type'));
+			$transaction->status = strtoupper($request->get('status_type'));
+			$transaction->remarks = $request->get('remarks') ? $request->get('remarks') : "";
+			$transaction->modified_at = Carbon::now();
 			$transaction->save();
 			
-			$insert[] = [
-                'contact_number' => $transaction->contact_number,
-                'ref_num' => $transaction->processing_fee_code,
-                'amount' => $transaction->amount,
-                'full_name' => $transaction->customer->full_name
-            ];
+			// $insert[] = [
+   //              'contact_number' => $transaction->contact_number,
+   //              'ref_num' => $transaction->processing_fee_code,
+   //              'amount' => $transaction->amount,
+   //              'full_name' => $transaction->customer->full_name
+   //          ];
 
-			$notification_data = new SendTaxReference($insert);
-		    Event::dispatch('send-sms-tax', $notification_data);
+			// $notification_data = new SendTaxReference($insert);
+		 //    Event::dispatch('send-sms-tax', $notification_data);
 
 			DB::commit();
 			session()->flash('notification-status', "success");

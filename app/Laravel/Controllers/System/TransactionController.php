@@ -48,6 +48,7 @@ class TransactionController extends Controller{
 		try{
 			$transaction = $request->get('transaction_data');
 			$transaction->status = strtoupper($request->get('status_type'));
+			$transaction->remarks = $request->get('remarks') ? $request->get('remarks') : "";
 			$transaction->save();
 
 			DB::commit();

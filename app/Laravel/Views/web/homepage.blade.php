@@ -68,30 +68,30 @@
     <script src="{{asset('system/vendors/sweet-alert2/sweetalert2.min.js')}}"></script>
     <script type="text/javascript">
 
-        $(".btn-submission").on('click', function(){
-                var url = $(this).data('url');
-                var self = $(this);
+    $(".btn-submission").on('click', function(){
+        var url = $(this).data('url');
+        var self = $(this);
 
-                (async () => {
+        (async () => {
 
-                const {value: type} = await Swal.fire({
-                    title: 'Please choose a transaction',
-                    text: 'Are you applying for?',
-                    input: 'select',
-                    inputOptions: {
-                        'e_submission': 'E-Submissions',
-                        'ctc': 'Community Tax Certificate'
-                    },
-                    inputPlaceholder: 'Select Type',
-                    showCancelButton: true,
-                  
-                })
-                if (type) {
-                    window.location.href = url + "?type="+type;
-                }
-                })()
-                                
-        });
+        const {value: type} = await Swal.fire({
+            title: 'Please choose a transaction',
+            text: 'Are you applying for?',
+            input: 'select',
+            inputOptions: {
+                'e_submission': 'E-Submissions',
+                'ctc': 'Community Tax Certificate'
+            },
+            inputPlaceholder: 'Select Type',
+            showCancelButton: true,
+          
+        })
+        if (type) {
+            window.location.href = url + "?type="+type;
+        }
+        })()
+                            
+    });
       
     </script>
 @stop

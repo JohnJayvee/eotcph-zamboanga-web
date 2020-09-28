@@ -249,8 +249,9 @@ class CustomerTransactionController extends Controller
 
 	public function ctc_history(){
 		$auth_id = Auth::guard('customer')->user()->id;
+		$other_customer = OtherCustomer::where('customer_id',$auth_id)->first();
 
-		$this->data['tax_transactions'] = OtherTransaction::where('customer_id', $auth_id)->where('type',2)->orderBy('created_at',"DESC")->get();
+		$this->data['tax_transactions'] = OtherTransaction::where('customer_id', $other_customer->id)->where('type',2)->orderBy('created_at',"DESC")->get();
 		$this->data['page_title'] = "Application history";
 		return view('web.transaction.taxhistory',$this->data);
 

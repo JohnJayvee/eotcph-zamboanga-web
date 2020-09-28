@@ -25,13 +25,13 @@ class CTCRequest extends RequestManager{
 
 		switch ($this->get('ctc_type')) {
 			case 'salary':
-				$rules['income_salary'] = "required";
+				$rules['income_salary'] = "required|numeric";
 			break;
 			case 'business':
-				$rules['business_sales'] = "required";
+				$rules['business_sales'] = "required|numeric";
 			break;
 			case 'property':
-				$rules['income_real_state'] = "required";
+				$rules['income_real_state'] = "required|numeric";
 			break;
 			default:
 			break;
@@ -43,7 +43,9 @@ class CTCRequest extends RequestManager{
 	public function messages(){
 		return [
 			'required'	=> "Field is required.",
-			'numeric' => "Please input a valid amount.",
+			'weight.numeric' => "Please input a valid data.",
+			'height.numeric' => "Please input a valid data.",
+
 		];
 	}
 }
