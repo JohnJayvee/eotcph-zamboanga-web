@@ -21,7 +21,7 @@
         <span class="menu-title">Transactions</span>
       </a>
     </li>
-    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.other_customer.index','system.other_customer.create','system.other_transaction.index','system.other_transaction.show','system.other_customer.show')) ? 'active' : ''}}">
+    <li class="p-3 nav-item {{ in_array(Route::currentRouteName(), array('system.other_customer.index','system.other_customer.create','system.other_transaction.index','system.other_transaction.show','system.other_customer.show','system.other_transaction.create')) ? 'active' : ''}}">
       <a class="nav-link" href="{{route('system.other_customer.index')}}">
         <i class="fa fa-file menu-icon"></i>
         <span class="menu-title">Local Record</span>
