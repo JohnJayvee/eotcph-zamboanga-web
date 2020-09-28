@@ -59,8 +59,12 @@ class Violators extends Authenticatable{
     protected $casts = [];
 
     
-   
+    public function getPrivateFullNameAttribute(){
+        return Str::title("{$this->p_firstname} {$this->p_middlename} {$this->p_lastname}");
+    }
 
-
-
+    public function customer(){
+        return $this->BelongsTo("App\Laravel\Models\OtherCustomer",'customer_id','id');
+    }
+    
 }

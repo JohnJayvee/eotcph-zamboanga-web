@@ -3,6 +3,7 @@
 namespace App\Laravel\Services;
 use App\Laravel\Models\Transaction;
 use App\Laravel\Models\TaxCertificate;
+use App\Laravel\Models\Violators;
 use Route,Str,Carbon,Input,DB,DateTime,DateInterval,DatePeriod;
 
 class Helper{
@@ -83,7 +84,19 @@ class Helper{
 		if($length >= 15 ) return 0.9;
 
 	}
-
+	public static function number_of_offense($id,$superscript = false){
+		$count = Violators::where('customer_id',$id)->count();
+		$number = abs($count);
+ 
+        $indicators = ['th','st','nd','rd','th','th','th','th','th','th'];
+ 
+        $suffix = $superscript ? '<sup>' . $indicators[$number % 10] . '</sup>' : $indicators[$number % 10];
+        if ($number % 100 >= 11 && $number % 100 <= 13) {
+            $suffix = $superscript ? '<sup>th</sup>' : 'th';
+        }
+ 
+        return number_format($number) . $suffix;
+	}
 
 	public static function tax($type = NULL){
 		switch ($type) {

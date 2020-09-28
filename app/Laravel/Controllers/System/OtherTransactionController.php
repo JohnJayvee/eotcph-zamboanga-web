@@ -87,7 +87,7 @@ class OtherTransactionController extends Controller
 					$new_violators->ticket_no = $request->get('ticket_no');
 					$new_violators->customer_id = $request->get('customer_id');
 
-					$new_violators->p_firstname = $request->get('p_middlename');
+					$new_violators->p_firstname = $request->get('p_firstname');
 					$new_violators->p_middlename = $request->get('p_middlename');
 					$new_violators->p_lastname = $request->get('p_lastname');
 					
@@ -177,6 +177,7 @@ class OtherTransactionController extends Controller
 	public function show(PageRequest $request,$id = NULL){
 		$this->data['transaction'] = $request->get('other_transaction_data');
 		$this->data['ctc'] = TaxCertificate::where('transaction_id',$id)->first();
+		$this->data['violator'] = Violators::where('transaction_id',$id)->first();
 		$this->data['page_title'] = "Transaction Details";
 		return view('system.other-transaction.show',$this->data);
 	}

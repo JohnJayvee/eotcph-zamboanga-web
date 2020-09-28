@@ -53,7 +53,7 @@
             <th class="text-title fs-15 fs-500 p-3">Full Name</th>
             <th class="text-title fs-15 fs-500 p-3">Transaction Type</th>
             <th class="text-title fs-15 fs-500 p-3">Created by</th>
-            <th class="text-title fs-15 fs-500 p-3 text-center">Status</th>
+            <th class="text-title fs-15 fs-500 p-3 text-center">Transaction Status</th>
             <th class="text-title fs-15 fs-500 p-3">Action</th>
           </tr>
         </thead>
@@ -65,7 +65,7 @@
             <th>{{$other_transaction->transac_type->name}}</th>
             <th>{{$other_transaction->admin ? $other_transaction->admin->full_name : "--"}}</th>
             <th class="text-center">
-              <div>{{$other_transaction->processing_fee ?: 0 }}</div>
+              <div>{{$other_transaction->amount ?: 0 }}</div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->payment_status)}} p-2">{{Str::upper($other_transaction->payment_status)}}</span></small></div>
               <div><small><span class="badge badge-pill badge-{{Helper::status_badge($other_transaction->transaction_status)}} p-2 mt-1">{{Str::upper($other_transaction->transaction_status)}}</span></small></div>
             </th>
