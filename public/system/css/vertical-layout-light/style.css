@@ -9220,6 +9220,7 @@ pre code {
   .container {
     max-width: 720px;
   }
+
 }
 
 @media (min-width: 992px) {
@@ -9730,6 +9731,7 @@ pre code {
   .offset-md-11 {
     margin-left: 91.66667%;
   }
+ 
 }
 
 @media (min-width: 992px) {
@@ -10367,6 +10369,13 @@ pre code {
   .table-responsive-md > .table-bordered {
     border: 0;
   }
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item:last-child {
+    margin-right: -138px !important;
+  }
+  .profile-details{
+    display: none;
+  }
+ 
 }
 
 @media (max-width: 991.98px) {
@@ -11864,6 +11873,13 @@ input[type="button"].btn-block {
   .dropdown-menu-sm-right {
     right: 0;
     left: auto;
+  }
+
+}
+
+@media (max-width: 450px){
+   .header-datetime{
+    display: none !important;
   }
 }
 

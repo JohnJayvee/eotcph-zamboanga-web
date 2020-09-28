@@ -2,18 +2,16 @@
   <div class="text-center navbar-brand-wrapper d-flex align-items-center">
     <a class="navbar-brand brand-logo" href="{{route('system.dashboard')}}"><img src="{{asset('web/img/temp-logo.jpg')}}" alt="logo"/></a>
     <a class="navbar-brand brand-logo-mini" href="{{route('system.dashboard')}}"><img src="{{asset('logo.png?v=1.2')}}" alt="logo"/></a>
-
   </div>
 
   <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-    <i class="fa fa-calendar-alt" style="color: #C74A4F"> <span id="current_date" class="text-roboto"></span></i> 
-    <i class="fa fa-hourglass-half pl-3" style="color: #C74A4F"> <span id="current_time" class="text-roboto"></span></i> 
+    <i class="fa fa-calendar-alt header-datetime" style="color: #C74A4F"> <span id="current_date" class="text-roboto"></span></i> 
+    <i class="fa fa-hourglass-half pl-3 header-datetime" style="color: #C74A4F"> <span id="current_time" class="text-roboto"></span></i> 
     <ul class="navbar-nav navbar-nav-right">
-      
-      <li class="nav-item nav-profile dropdown" style="width: 300px;">
+      <li class="nav-item nav-profile dropdown navbar-nav-right" style="width: 300px;">
         <a class="nav-link text-title fw-500" href="#" data-toggle="dropdown" id="profileDropdown">
           <img src="{{strlen($auth->filename) > 0 ? "{$auth->directory}/resized/{$auth->filename}" : asset('placeholder/user.png')}}" alt="profile"/>
-           &nbsp; Welcome, {{Auth::user()->fullname}}
+           <span class="profile-details">&nbsp; Welcome, {{Auth::user()->fullname}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
           <a class="dropdown-item disabled">Welcome {{$auth->name}}!</a>
@@ -25,20 +23,12 @@
             <i class="mdi mdi-key"></i>
             Change Password
           </a>
-          <!-- <a href="{{route('system.auth.logout')}}" class="dropdown-item">
+          <a href="{{route('system.auth.logout')}}" class="dropdown-item">
             <i class="mdi mdi-logout"></i>
             Logout
-          </a> -->
+          </a>
         </div>
       </li>
-    
-      <li class="nav-item nav-timestamp">
-        <a href="{{route('system.auth.logout')}}" class="text-title mr-5 fw-500">
-          <i class="fa fa-sign-out-alt "></i>
-          Sign Out
-        </a>
-      </li>
-       
     </ul>
     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
       <span class="mdi mdi-menu"></span>

@@ -22,7 +22,7 @@ class RegisterRequest extends RequestManager{
 			'sss_no' => "nullable",
 			'phic_no' => "nullable",
 			'contact_number' => "required|max:10|phone:PH",
-			'email'	=> "required|unique:customer,email,{$id}",
+			'email'	=> "required|unique:customer,email,{$id}|email",
 			'password'	=> "required|confirmed",
 		];
 		

@@ -70,9 +70,6 @@
                                     <span class="input-group-text text-title fw-600">PHP <span class="pr-1 pl-2" style="padding-bottom: 2px"> |</span></span>
                                   </div>
                                   <input type="number" class="form-control br-left-white br-right-white {{ $errors->first('processing_fee') ? 'is-invalid': NULL  }}" placeholder="Payment Amount" name="processing_fee" id="input_processing_fee" value="{{old('processing_fee')}}" readonly>
-                                  <div class="input-group-append">
-                                    <span class="input-group-text text-title fw-600">| <span class="text-gray pl-2 pr-2 pt-1"> .00</span></span>
-                                  </div>
                                 </div>
                                 @if($errors->first('processing_fee'))
                                     <small class="form-text pl-1" style="color:red;">{{$errors->first('processing_fee')}}</small>

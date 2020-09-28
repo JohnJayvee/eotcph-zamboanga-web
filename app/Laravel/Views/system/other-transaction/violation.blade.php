@@ -147,7 +147,7 @@
           </div>
       	</div>
         <button type="submit" class="btn btn-primary mr-2">Proceed</button>
-        <a href="{{route('system.department.index')}}" class="btn btn-light">Return to Other Transactions list</a>
+        <a href="{{route('system.other_customer.show',[$customer->id])}}" class="btn btn-light">Return to Customer Records</a>
       </form>
     </div>
   </div>

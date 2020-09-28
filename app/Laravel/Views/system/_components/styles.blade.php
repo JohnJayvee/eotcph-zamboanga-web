@@ -25,7 +25,7 @@
     .navbar .navbar-brand-wrapper .brand-logo-mini img { width: auto; max-width: 175%!important; height: 50px; }
     .btn-action { text-decoration: none; }
     .fw{ width: 100%; max-width: 100%; }
-
+    
     .badge-danger,.btn-danger{
         background-color: #df1234;
     }
