@@ -13,10 +13,8 @@ class OtherTransactionRequest extends RequestManager{
 				$rules = [
 					'ticket_no' => "required",
 					'd_firstname' => "required",
-					'd_middlename' => "required",
 					'd_lastname' => "required",
 					'p_firstname' => "required",
-					'p_middlename' => "required",
 					'p_lastname' => "required",
 					'address' => "required",
 					'violation' => "required",
