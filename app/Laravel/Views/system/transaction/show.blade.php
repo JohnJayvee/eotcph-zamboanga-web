@@ -47,7 +47,6 @@
           <div class="col-md-6">
             <p class="text-title fw-500">Application Status: <span class="text-black">{{Str::title($transaction->status)}}</span></p>
           </div>
-
         </div> 
        
       </div>
